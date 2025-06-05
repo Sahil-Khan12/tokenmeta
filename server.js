@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
-
+import cors from 'cors'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,7 +14,7 @@ const PORT = 3005;
 const staticDir = path.join(__dirname, 'static');
 await fs.ensureDir(staticDir);
 app.use('/static', express.static(staticDir));
-
+app.use(cors());
 // Multer config
 const storage = multer.diskStorage({
   destination: async (req, file, cb) => {
