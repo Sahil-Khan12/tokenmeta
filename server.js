@@ -43,7 +43,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
       return res.status(400).json({ error: "Missing required fields (name, symbol, image)" });
     }
 
-    const imageUrl = `http://localhost:3005/static/images/${req.file.filename}`;
+    const imageUrl = `/static/images/${req.file.filename}`;
 
     const jsonData = {
       name,
