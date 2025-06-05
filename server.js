@@ -43,7 +43,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
       return res.status(400).json({ error: "Missing required fields (name, symbol, image)" });
     }
 
-    const imageUrl = `/static/images/${req.file.filename}`;
+    const imageUrl = `https://tokenmeta.onrender.com/static/images/${req.file.filename}`;
 
     const jsonData = {
       name,
@@ -66,7 +66,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
     res.status(200).json({
       message: 'Upload successful',
-      jsonFileUrl: `/static/data/${jsonFilename}`
+      jsonFileUrl: `https://tokenmeta.onrender.com/static/data/${jsonFilename}`
     });
   } catch (error) {
     console.error('Upload error:', error);
