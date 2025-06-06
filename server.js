@@ -30,11 +30,10 @@ app.post('/upload', async (req, res) => {
 
     const jsonDir = path.join(staticDir, 'data');
     await fs.ensureDir(jsonDir);
-
+    const name = req.body.name;
     // Sanitize and generate filename
     const safeName = sanitizeFileName(name);
-    const safeSymbol = sanitizeFileName(symbol);
-    const jsonFilename = `${safeName}_${safeSymbol}.json`;
+    const jsonFilename = `${safeName}_${Date.now()}.json`;
     const jsonFilePath = path.join(jsonDir, jsonFilename);
 
     await fs.writeJson(jsonFilePath, jsonData, { spaces: 2 });
