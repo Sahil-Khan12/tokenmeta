@@ -15,35 +15,19 @@ const staticDir = path.join(__dirname, 'static');
 await fs.ensureDir(staticDir);
 app.use('/static', express.static(staticDir));
 app.use(cors());
-// Multer config
-const storage = multer.diskStorage({
-  destination: async (req, file, cb) => {
-    const imgPath = path.join(staticDir, 'images');
-    await fs.ensureDir(imgPath);
-    cb(null, imgPath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now();
-    const ext = path.extname(file.originalname);
-    cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-  }
-});
-const upload = multer({ storage });
+app.use(express.json())
 
 // Helper: sanitize file name
 const sanitizeFileName = (str) => {
   return str.replace(/[^a-zA-Z0-9-_]/g, '_');
 };
 app.get('/', (req,res)=> res.send("hello workd"))
-app.post('/upload', upload.single('image'), async (req, res) => {
+app.post('/upload', async (req, res) => {
   try {
-    const { name, symbol, description } = req.body;
-    console.log(name,symbol,description)
-    if (!name || !symbol || !req.file) {
-      return res.status(400).json({ error: "Missing required fields (name, symbol, image)" });
+    const { name, symbol, description,imageUrl } = req.body;
+    if (!name || !symbol || !imageUrl) {
+      return res.status(400).json({ error: "Missing required fields (name, symbol, imageUrl)" });
     }
-
-    const imageUrl = `https://tokenmeta.onrender.com/static/images/${req.file.filename}`;
 
     const jsonData = {
       name,
