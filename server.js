@@ -23,16 +23,8 @@ const sanitizeFileName = (str) => {
 app.get('/', (req,res)=> res.send("hello workd"))
 app.post('/upload', async (req, res) => {
   try {
-    const { name, symbol, description,imageUrl } = req.body;
-    if (!name || !symbol || !imageUrl) {
-      return res.status(400).json({ error: "Missing required fields (name, symbol, imageUrl)" });
-    }
-
     const jsonData = {
-      name,
-      symbol,
-      description,
-      image: imageUrl,
+      ...req.body,
       uploadedAt: new Date().toISOString()
     };
 
